@@ -4,8 +4,6 @@
 
 @class DFPBannerView;
 
-@interface ViewController : UIViewController <DFPBannerAdLoaderDelegate, GADUnifiedNativeAdLoaderDelegate>
-
-@property(nonatomic, strong) GADAdLoader *loader;
+@interface ViewController : UIViewController
 
 @end
