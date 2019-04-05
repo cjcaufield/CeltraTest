@@ -31,7 +31,7 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
         // Unit ID
         self.unitID = [self.defaults objectForKey:kFLUnitID];
         if (self.unitID.length == 0) {
-            self.unitID = @"/21709104563/testing/cinemaloop_horizontal";
+            self.unitID = @"/21709104563/testing/celtra/celtra20";
         }
         
         // Should preload
@@ -75,7 +75,10 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
          @"/21709104563/testing/celtra/celtra3",
          @"/21709104563/testing/celtra/celtra4",
          @"/21709104563/testing/celtra/celtra5",
-         @"/21709104563/testing/celtra/celtra6"
+         @"/21709104563/testing/celtra/celtra6",
+         
+         // Auto-play hack test
+         @"/21709104563/testing/celtra/celtra20"
     ];
 }
 
