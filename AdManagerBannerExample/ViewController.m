@@ -351,6 +351,10 @@
         self.bannerView.center = self.view.center;
     }
     
+    // The GMA SDK seems to think ads are visibile when they're not.
+    // To work around this, inject javascript to tell the banner that it's *actually* visible.
+    [self setBannerVisibilityJavascriptFlag:YES];
+    
     // Update the UI.
     [self updateUI];
 }
@@ -364,6 +368,61 @@
 - (BOOL)hasBannerSubview
 {
     return [self.view.subviews containsObject:self.bannerView];
+}
+
+- (void)setBannerVisibilityJavascriptFlag:(BOOL)visible
+{
+    UIWebView *webView = [self topmostUIWebView:self.bannerView];
+    NSString *javascriptString = [self bannerVisibilityJavascriptString:visible];
+    [webView stringByEvaluatingJavaScriptFromString:javascriptString];
+}
+
+- (UIWebView *)topmostUIWebView:(UIView *)rootView
+{
+    // Be safe.
+    if (rootView == nil) {
+        return nil;
+    }
+    
+    // This is a breadth first search, so maintain a queue of views to check.
+    NSArray<UIView *> *views = @[rootView];
+    
+    // Subviews to check on the next iteration.
+    NSMutableArray<UIView *> *subviews = [NSMutableArray array];
+    
+    // While there are still views to check.
+    while (views.count > 0) {
+        // Iterate over them.
+        for (UIView *view in views) {
+            // If the view is a UIWebView, return it.
+            if ([view isKindOfClass:[UIWebView class]]) {
+                return (UIWebView *)view;
+            }
+            // Otherwise, enqueue the view's subviews.
+            else {
+                [subviews addObjectsFromArray:view.subviews];
+            }
+        }
+        
+        // Set up the next iteration.
+        views = subviews;
+        subviews = [NSMutableArray array];
+    }
+    
+    // Nothing found.
+    return nil;
+}
+
+- (NSString *)bannerVisibilityJavascriptString:(BOOL)visible
+{
+    NSString *param = visible ? @"true" : @"false";
+    
+    NSString *javascriptString = [NSString stringWithFormat:@" \
+        if (typeof flipboardVisibilityFlag !== 'undefined') {  \
+            flipboardVisibilityFlag = %@;                      \
+        }", param];
+    
+    return javascriptString;
 }
 
 #pragma mark - State
