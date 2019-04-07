@@ -1,26 +1,34 @@
-# iOS AdManager Banner Example
+# CeltraTest
 
-This is a minimal example showing how to place an AdManager banner ad into an
-iOS application.
+## Overview
 
-This example does not come bundled with the iOS Google Mobile Ads SDK, but is
-compatible with Cocoapods and includes a Podfile. We recommend using Cocoapods
-to reference the SDK. You can do this by running:
+Originally forked from Google's [AdManagerBannerExample](https://github.com/googleads/googleads-mobile-ios-examples/tree/master/Objective-C/admanager/AdManagerBannerExample).  
 
-`pod update`
+This is a minimal app that fetches and displays banner ads.  The goal is to test various pre-loading techniques and debug visibility issues like early auto-play. 
 
-If you don't have Cocoapods installed, visit
-https://guides.cocoapods.org/using/getting-started.html#toc_3 to get started.
+## CocoaPods
 
-After running pod update, Cocoapods creates a .xcworkspace that you can open
-and run.
+This project uses [Cocoapods](https://guides.cocoapods.org/using/getting-started.html) to import the iOS GoogleMobileAds SDK.  Run the `pod update` command and then open the generated `.xcworkspace` file.
 
-## Replace the Ad Unit ID
+## Functionality
 
-This example comes with a preconfigured AdManager ad unit ID. You should create
-your own inventory in AdManager and reference your own ad unit ID.
+The app uses most of the screen to display ads, with the exception of a bottom bar, just like Flipboard.  The bottom bar contains three buttons:
 
-Additional Resources
---------------------
-* [Developer documentation](https://developers.google.com/mobile-ads-sdk)
-* [Developer forum](https://groups.google.com/group/google-admob-ads-sdk)
+**Reset**
+
+Cancels in-progress fetching/preloading and deletes downloaded ads.
+
+
+**Fetch/Present**
+
+Fetches a new ad with the unit ID selected in Settings. 
+ 
+If "Auto-Present" is off, the "Fetch" button will turn into a "Present" button once the ad finishes downloading/preloading.
+
+**Settings**
+
+*Unit ID -* The unit ID used for ad fetches.
+
+*Preload -* Enables a hack that forces Celtra ads to preload before they appear.  Banners are attached to the main window behind other views for 5 seconds.
+
+*Auto-Present -* Automatically display ads when they finish downloading/preloading.  Turn this off to help isolate activity that happens before ads appear.
