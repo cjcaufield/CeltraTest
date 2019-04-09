@@ -13,6 +13,8 @@
 
 @property (nonatomic, weak) IBOutlet UILabel *unitIDLabel;
 @property (nonatomic, weak) IBOutlet UISwitch *preloadSwitch;
+@property (nonatomic, weak) IBOutlet UISwitch *preloadOffscreenSwitch;
+@property (nonatomic, weak) IBOutlet UITableViewCell *preloadOffscreenCell;
 @property (nonatomic, weak) IBOutlet UISwitch *autoPresentSwitch;
 
 @end
@@ -35,17 +37,35 @@
 {
     self.unitIDLabel.text = DataModel.shared.prettyUnitID;
     self.preloadSwitch.on = DataModel.shared.shouldPreload;
+    self.preloadOffscreenSwitch.on = DataModel.shared.preloadOffscreen;
     self.autoPresentSwitch.on = DataModel.shared.shouldAutoPresent;
+    
+    // Only enable the preload offscreen cell if preloading is on.
+    [self setPreloadOffscreenCellEnabled:DataModel.shared.shouldPreload];
+}
+
+- (void)setPreloadOffscreenCellEnabled:(BOOL)enabled
+{
+    self.preloadOffscreenCell.userInteractionEnabled = enabled;
+    self.preloadOffscreenCell.contentView.alpha = enabled ? 1.0 : 0.5;
 }
 
 - (IBAction)preloadSwitchChanged:(UISwitch *)sender
 {
     DataModel.shared.shouldPreload = sender.on;
+    [self updateUI];
+}
+
+- (IBAction)preloadOffscreenChanged:(UISwitch *)sender
+{
+    DataModel.shared.preloadOffscreen = sender.on;
+    [self updateUI];
 }
 
 - (IBAction)autoPresentSwitchChanged:(UISwitch *)sender
 {
     DataModel.shared.shouldAutoPresent = sender.on;
+    [self updateUI];
 }
 
 @end

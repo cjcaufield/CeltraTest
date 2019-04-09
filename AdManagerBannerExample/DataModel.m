@@ -10,6 +10,7 @@
 
 static NSString *kFLUnitID = @"FLUnitID";
 static NSString *kFLShouldPreload = @"FLShouldPreload";
+static NSString *kFLPreloadOffscreen = @"FLPreloadOffscreen";
 static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
 
 @implementation DataModel
@@ -39,6 +40,13 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
             self.shouldPreload = [self.defaults boolForKey:kFLShouldPreload];
         } else {
             self.shouldPreload = YES;
+        }
+        
+        // Preload offscreen
+        if ([self.defaults objectForKey:kFLPreloadOffscreen]) {
+            self.preloadOffscreen = [self.defaults boolForKey:kFLPreloadOffscreen];
+        } else {
+            self.preloadOffscreen = YES;
         }
         
         // Should automatically present
@@ -102,6 +110,12 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
 {
     _shouldPreload = shouldPreload;
     [self.defaults setBool:shouldPreload forKey:kFLShouldPreload];
+}
+
+- (void)setPreloadOffscreen:(BOOL)preloadOffscreen
+{
+    _preloadOffscreen = preloadOffscreen;
+    [self.defaults setBool:preloadOffscreen forKey:kFLPreloadOffscreen];
 }
 
 - (void)setShouldAutoPresent:(BOOL)shouldAutoPresent

@@ -13,7 +13,7 @@
 // Singleton
 + (instancetype)shared;
 
-// All the bundled unit IDs for testing
+// All the bundled unit IDs for testing.
 + (NSArray<NSString *> *)allPossibleUnitIDs;
 
 // Last componenet of the Unit ID only.
@@ -22,8 +22,11 @@
 // Unit ID
 @property (nonatomic, copy) NSString *unitID;
 
-// Should the preloading hack be used
+// Should the preloading hack be used.
 @property (nonatomic, assign) BOOL shouldPreload;
+
+// Place preloading views outside of the screen's bounds?
+@property (nonatomic, assign) BOOL preloadOffscreen;
 
 // Should the ad automatically be presented once it's done downloading (and preloading).
 @property (nonatomic, assign) BOOL shouldAutoPresent;

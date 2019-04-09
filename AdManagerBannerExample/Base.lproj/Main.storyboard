@@ -118,7 +118,7 @@
                                             <segue destination="8xd-8g-FiO" kind="push" identifier="UnitIDSegue" id="YXG-qY-5zX"/>
                                         </connections>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="Chc-gP-PAj">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="44" id="Chc-gP-PAj">
                                         <rect key="frame" x="0.0" y="44" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Chc-gP-PAj" id="dr0-uW-SYo">
@@ -146,15 +146,15 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
-                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" rowHeight="44" id="Bvh-YV-9ba">
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="44" id="Bvh-YV-9ba">
                                         <rect key="frame" x="0.0" y="88" width="375" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="Bvh-YV-9ba" id="KSx-AT-9UG">
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Auto-Present" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sbx-sD-HAd">
-                                                    <rect key="frame" x="16" y="11.333333333333336" width="102" height="21"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Outside Screen Bounds" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Sbx-sD-HAd">
+                                                    <rect key="frame" x="26" y="11.333333333333336" width="181" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -162,15 +162,43 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T9I-Nb-3HB">
                                                     <rect key="frame" x="310" y="6.3333333333333321" width="51" height="30.999999999999996"/>
                                                     <connections>
-                                                        <action selector="autoPresentSwitchChanged:" destination="L1G-fS-gTS" eventType="valueChanged" id="S4n-V8-FVL"/>
+                                                        <action selector="preloadOffscreenChanged:" destination="L1G-fS-gTS" eventType="valueChanged" id="2jg-xl-Dat"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
                                             <constraints>
                                                 <constraint firstItem="T9I-Nb-3HB" firstAttribute="trailing" secondItem="KSx-AT-9UG" secondAttribute="trailingMargin" id="55K-d7-Ptt"/>
                                                 <constraint firstItem="Sbx-sD-HAd" firstAttribute="centerY" secondItem="KSx-AT-9UG" secondAttribute="centerY" id="GXb-WG-iiF"/>
-                                                <constraint firstItem="Sbx-sD-HAd" firstAttribute="leading" secondItem="KSx-AT-9UG" secondAttribute="leadingMargin" id="Gur-0Y-aLq"/>
+                                                <constraint firstItem="Sbx-sD-HAd" firstAttribute="leading" secondItem="KSx-AT-9UG" secondAttribute="leadingMargin" constant="10" id="Gur-0Y-aLq"/>
                                                 <constraint firstItem="T9I-Nb-3HB" firstAttribute="centerY" secondItem="KSx-AT-9UG" secondAttribute="centerY" id="x37-v6-Bmc"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="44" id="ZiP-NC-m0x">
+                                        <rect key="frame" x="0.0" y="132" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="ZiP-NC-m0x" id="bit-Iw-w9h">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Auto-Present" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MKU-3t-w65">
+                                                    <rect key="frame" x="16" y="11.333333333333336" width="102" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f3b-5D-rzz">
+                                                    <rect key="frame" x="310" y="6.3333333333333321" width="51" height="30.999999999999996"/>
+                                                    <connections>
+                                                        <action selector="autoPresentSwitchChanged:" destination="L1G-fS-gTS" eventType="valueChanged" id="U1f-rd-vWK"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="MKU-3t-w65" firstAttribute="centerY" secondItem="bit-Iw-w9h" secondAttribute="centerY" id="9ZR-dl-NDK"/>
+                                                <constraint firstItem="f3b-5D-rzz" firstAttribute="trailing" secondItem="bit-Iw-w9h" secondAttribute="trailingMargin" id="ABp-T7-wiH"/>
+                                                <constraint firstItem="f3b-5D-rzz" firstAttribute="centerY" secondItem="bit-Iw-w9h" secondAttribute="centerY" id="cYm-Ka-fgG"/>
+                                                <constraint firstItem="MKU-3t-w65" firstAttribute="leading" secondItem="bit-Iw-w9h" secondAttribute="leadingMargin" id="deK-p2-LDm"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -185,7 +213,9 @@
                     <navigationItem key="navigationItem" title="Settings" id="iZC-0a-MPA"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
-                        <outlet property="autoPresentSwitch" destination="T9I-Nb-3HB" id="cs5-pu-64O"/>
+                        <outlet property="autoPresentSwitch" destination="f3b-5D-rzz" id="biV-RP-PXO"/>
+                        <outlet property="preloadOffscreenCell" destination="Bvh-YV-9ba" id="IGS-lo-UEK"/>
+                        <outlet property="preloadOffscreenSwitch" destination="T9I-Nb-3HB" id="cDN-XW-IMN"/>
                         <outlet property="preloadSwitch" destination="F1o-VH-Ric" id="4tc-7d-LO7"/>
                         <outlet property="unitIDLabel" destination="fRE-cN-PSt" id="HTH-xZ-ggm"/>
                     </connections>

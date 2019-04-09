@@ -264,6 +264,13 @@
         [self.mainWindow addSubview:self.bannerView];
         [self.mainWindow sendSubviewToBack:self.bannerView];
         
+        // Optionally move the banner outside of the screen frame.
+        if (DataModel.shared.preloadOffscreen) {
+            CGRect offscreenBannerFrame = self.bannerView.frame;
+            offscreenBannerFrame.origin.x += UIScreen.mainScreen.bounds.size.width;
+            self.bannerView.frame = offscreenBannerFrame;
+        }
+        
         // Wait a specified amount of time for preloading to complete.
         NSTimeInterval kPreloadingTime = 5.0;
         [self performSelector:@selector(preloadingDidFinish) withObject:nil afterDelay:kPreloadingTime];
