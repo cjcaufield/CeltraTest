@@ -28,6 +28,9 @@
 // Place preloading views outside of the screen's bounds?
 @property (nonatomic, assign) BOOL preloadOffscreen;
 
+// Inject javascript to let the banner know when it's *actually* visible.
+@property (nonatomic, assign) BOOL injectVisibilityJavascript;
+
 // Should the ad automatically be presented once it's done downloading (and preloading).
 @property (nonatomic, assign) BOOL shouldAutoPresent;
 

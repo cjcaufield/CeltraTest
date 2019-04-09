@@ -360,7 +360,9 @@
     
     // The GMA SDK seems to think ads are visibile when they're not.
     // To work around this, inject javascript to tell the banner that it's *actually* visible.
-    [self setBannerVisibilityJavascriptFlag:YES];
+    if (DataModel.shared.injectVisibilityJavascript) {
+        [self setBannerVisibilityJavascriptFlag:YES];
+    }
     
     // Update the UI.
     [self updateUI];

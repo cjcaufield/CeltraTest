@@ -11,6 +11,7 @@
 static NSString *kFLUnitID = @"FLUnitID";
 static NSString *kFLShouldPreload = @"FLShouldPreload";
 static NSString *kFLPreloadOffscreen = @"FLPreloadOffscreen";
+static NSString *kFLInjectVisibilityJavascript = @"FLInjectVisibilityJavascript";
 static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
 
 @implementation DataModel
@@ -30,33 +31,32 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
     self = [super init];
     if (self) {
         // Unit ID
-        self.unitID = [self.defaults objectForKey:kFLUnitID];
-        if (self.unitID.length == 0) {
-            self.unitID = @"/21709104563/testing/celtra/celtra20";
-        }
+        self.unitID = [self defaultStringForKey:kFLUnitID fallback:@"/21709104563/testing/celtra/celtra20"];
         
-        // Should preload
-        if ([self.defaults objectForKey:kFLShouldPreload]) {
-            self.shouldPreload = [self.defaults boolForKey:kFLShouldPreload];
-        } else {
-            self.shouldPreload = YES;
-        }
+        // Preload
+        self.shouldPreload = [self defaultBoolForKey:kFLShouldPreload fallback:YES];
         
         // Preload offscreen
-        if ([self.defaults objectForKey:kFLPreloadOffscreen]) {
-            self.preloadOffscreen = [self.defaults boolForKey:kFLPreloadOffscreen];
-        } else {
-            self.preloadOffscreen = YES;
-        }
+        self.preloadOffscreen = [self defaultBoolForKey:kFLPreloadOffscreen fallback:YES];
         
-        // Should automatically present
-        if ([self.defaults objectForKey:kFLShouldAutoPresent]) {
-            self.shouldAutoPresent = [self.defaults boolForKey:kFLShouldAutoPresent];
-        } else {
-            self.shouldAutoPresent = YES;
-        }
+        // Inject visibility javascript
+        self.injectVisibilityJavascript = [self defaultBoolForKey:kFLInjectVisibilityJavascript fallback:YES];
+        
+        // Auto-present
+        self.shouldAutoPresent = [self defaultBoolForKey:kFLShouldAutoPresent fallback:YES];
     }
     return self;
+}
+
+- (NSString *)defaultStringForKey:(NSString *)key fallback:(NSString *)fallback
+{
+    NSString *defaultString = [self.defaults objectForKey:key];
+    return defaultString.length > 0 ? defaultString : fallback;
+}
+
+- (BOOL)defaultBoolForKey:(NSString *)key fallback:(BOOL)fallback
+{
+    return [self.defaults objectForKey:key] ? [self.defaults boolForKey:key] : fallback;
 }
 
 + (NSArray<NSString *> *)allPossibleUnitIDs
@@ -116,6 +116,12 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
 {
     _preloadOffscreen = preloadOffscreen;
     [self.defaults setBool:preloadOffscreen forKey:kFLPreloadOffscreen];
+}
+
+- (void)setInjectVisibilityJavascript:(BOOL)inject
+{
+    _injectVisibilityJavascript = inject;
+    [self.defaults setBool:inject forKey:kFLInjectVisibilityJavascript];
 }
 
 - (void)setShouldAutoPresent:(BOOL)shouldAutoPresent

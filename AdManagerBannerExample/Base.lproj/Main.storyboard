@@ -181,8 +181,8 @@
                                             <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
-                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Auto-Present" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MKU-3t-w65">
-                                                    <rect key="frame" x="16" y="11.333333333333336" width="102" height="21"/>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Inject Visibility Javascript" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MKU-3t-w65">
+                                                    <rect key="frame" x="16" y="11.333333333333336" width="193" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <nil key="textColor"/>
                                                     <nil key="highlightedColor"/>
@@ -190,7 +190,7 @@
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="f3b-5D-rzz">
                                                     <rect key="frame" x="310" y="6.3333333333333321" width="51" height="30.999999999999996"/>
                                                     <connections>
-                                                        <action selector="autoPresentSwitchChanged:" destination="L1G-fS-gTS" eventType="valueChanged" id="U1f-rd-vWK"/>
+                                                        <action selector="injectVisibilityJavascriptSwitchChanged:" destination="L1G-fS-gTS" eventType="valueChanged" id="yic-u9-7dk"/>
                                                     </connections>
                                                 </switch>
                                             </subviews>
@@ -199,6 +199,34 @@
                                                 <constraint firstItem="f3b-5D-rzz" firstAttribute="trailing" secondItem="bit-Iw-w9h" secondAttribute="trailingMargin" id="ABp-T7-wiH"/>
                                                 <constraint firstItem="f3b-5D-rzz" firstAttribute="centerY" secondItem="bit-Iw-w9h" secondAttribute="centerY" id="cYm-Ka-fgG"/>
                                                 <constraint firstItem="MKU-3t-w65" firstAttribute="leading" secondItem="bit-Iw-w9h" secondAttribute="leadingMargin" id="deK-p2-LDm"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="44" id="7nZ-sy-nHQ">
+                                        <rect key="frame" x="0.0" y="176" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="7nZ-sy-nHQ" id="Bll-IL-9Kq">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Auto-Present" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cyp-dG-d5l">
+                                                    <rect key="frame" x="16" y="11.333333333333336" width="102" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dXq-is-4LR">
+                                                    <rect key="frame" x="310" y="6.3333333333333321" width="51" height="30.999999999999996"/>
+                                                    <connections>
+                                                        <action selector="autoPresentSwitchChanged:" destination="L1G-fS-gTS" eventType="valueChanged" id="JOn-7r-PMl"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="dXq-is-4LR" firstAttribute="centerY" secondItem="Bll-IL-9Kq" secondAttribute="centerY" id="8gK-Ok-pyN"/>
+                                                <constraint firstItem="Cyp-dG-d5l" firstAttribute="leading" secondItem="Bll-IL-9Kq" secondAttribute="leadingMargin" id="JTX-mN-uns"/>
+                                                <constraint firstItem="Cyp-dG-d5l" firstAttribute="centerY" secondItem="Bll-IL-9Kq" secondAttribute="centerY" id="R4f-aM-AzR"/>
+                                                <constraint firstItem="dXq-is-4LR" firstAttribute="trailing" secondItem="Bll-IL-9Kq" secondAttribute="trailingMargin" id="mf8-rC-mW8"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
@@ -213,7 +241,8 @@
                     <navigationItem key="navigationItem" title="Settings" id="iZC-0a-MPA"/>
                     <simulatedNavigationBarMetrics key="simulatedTopBarMetrics" translucent="NO" prompted="NO"/>
                     <connections>
-                        <outlet property="autoPresentSwitch" destination="f3b-5D-rzz" id="biV-RP-PXO"/>
+                        <outlet property="autoPresentSwitch" destination="dXq-is-4LR" id="3FD-5b-lGJ"/>
+                        <outlet property="injectVisibilityJavascriptSwitch" destination="f3b-5D-rzz" id="ZmM-8h-jtC"/>
                         <outlet property="preloadOffscreenCell" destination="Bvh-YV-9ba" id="IGS-lo-UEK"/>
                         <outlet property="preloadOffscreenSwitch" destination="T9I-Nb-3HB" id="cDN-XW-IMN"/>
                         <outlet property="preloadSwitch" destination="F1o-VH-Ric" id="4tc-7d-LO7"/>
