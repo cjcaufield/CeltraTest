@@ -12,6 +12,7 @@
 @property (nonatomic, strong) GADAdLoader *loader;
 @property (nonatomic, strong) DFPBannerView *bannerView;
 @property (nonatomic, assign) BOOL bannerWantsFullscreen;
+@property (nonatomic, assign) BOOL bannerIsPreloading;
 @property (nonatomic, assign) BOOL bannerHasBeenPreloaded;
 
 // Debug UI
@@ -134,6 +135,7 @@
     
     // Reset flags
     self.bannerWantsFullscreen = NO;
+    self.bannerIsPreloading = NO;
     self.bannerHasBeenPreloaded = NO;
     
     // Update the UI
@@ -168,7 +170,8 @@
 
 - (void)preloadingDidFinish
 {
-    // Update flag
+    // Update state
+    self.bannerIsPreloading = NO;
     self.bannerHasBeenPreloaded = YES;
     
     // Auto-present?
@@ -261,15 +264,18 @@
         NSLog(@"Adding banner to main window.");
         
         // Add the banner to the main window so it can preload.
-        [self.mainWindow addSubview:self.bannerView];
-        [self.mainWindow sendSubviewToBack:self.bannerView];
+        [self.mainWindow insertSubview:self.bannerView atIndex:0];
         
         // Optionally move the banner outside of the screen frame.
         if (DataModel.shared.preloadOffscreen) {
+            NSLog(@"Moving banner outside of screen bounds.");
             CGRect offscreenBannerFrame = self.bannerView.frame;
             offscreenBannerFrame.origin.x += UIScreen.mainScreen.bounds.size.width;
             self.bannerView.frame = offscreenBannerFrame;
         }
+        
+        // Track the state.
+        self.bannerIsPreloading = YES;
         
         // Wait a specified amount of time for preloading to complete.
         NSTimeInterval kPreloadingTime = 5.0;
@@ -361,6 +367,7 @@
     // The GMA SDK seems to think ads are visibile when they're not.
     // To work around this, inject javascript to tell the banner that it's *actually* visible.
     if (DataModel.shared.injectVisibilityJavascript) {
+        NSLog(@"Injecting banner visibility javascript");
         [self setBannerVisibilityJavascriptFlag:YES];
     }
     
@@ -453,8 +460,7 @@
 
 - (BOOL)isPreloadingAd
 {
-    // If the banner is still attached to the window and it hasn't finished preloading.
-    return [self.mainWindow.subviews containsObject:self.bannerView] && !self.bannerHasBeenPreloaded;
+    return self.bannerIsPreloading;
 }
 
 - (BOOL)canPresentBanner
