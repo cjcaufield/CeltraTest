@@ -27,8 +27,12 @@ If "Auto-Present" is off, the "Fetch" button will turn into a "Present" button o
 
 **Settings**
 
-*Unit ID -* The unit ID used for ad fetches.
+* *Unit ID -* The unit ID used for ad fetches.
 
-*Preload -* Enables a hack that forces Celtra ads to preload before they appear.  Banners are attached to the main window behind other views for 5 seconds.
+* *Preload -* Enables a hack that forces Celtra ads to preload before they appear.  Banners are attached to the main window behind other views for 5 seconds.
 
-*Auto-Present -* Automatically display ads when they finish downloading/preloading.  Turn this off to help isolate activity that happens before ads appear.
+* *Preload > Outside Screen Bounds -* Preload the banner outside of the screen's bounds.  Specifically, origin.x is set to the screen width.
+
+* *Inject Visibility Javascript -* Inject `window.adIsVisible = true;` when the ad is presented.  Some creatives (eg. celtra20) delay autoplay until this flag is set.
+
+* *Auto-Present -* Automatically display ads when they finish downloading/preloading.  Turn this off to help isolate activity that happens before ads appear.
