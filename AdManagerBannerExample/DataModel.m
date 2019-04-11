@@ -37,7 +37,8 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
         self.shouldPreload = [self defaultBoolForKey:kFLShouldPreload fallback:YES];
         
         // Preload offscreen
-        self.preloadOffscreen = [self defaultBoolForKey:kFLPreloadOffscreen fallback:YES];
+        // Doesn't seem to work, so leaving off by default.
+        self.preloadOffscreen = [self defaultBoolForKey:kFLPreloadOffscreen fallback:NO];
         
         // Inject visibility javascript
         self.injectVisibilityJavascript = [self defaultBoolForKey:kFLInjectVisibilityJavascript fallback:YES];
@@ -85,7 +86,10 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
          @"/21709104563/testing/celtra/celtra5",
          @"/21709104563/testing/celtra/celtra6",
          
-         // Auto-play hack test
+         // Video ad *without* javascript hack
+         @"/21709104563/testing/celtra/celtra18",
+         
+         // Video ad *with* javascript hack
          @"/21709104563/testing/celtra/celtra20"
     ];
 }
