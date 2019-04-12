@@ -432,7 +432,7 @@
 - (NSString *)bannerVisibilityJavascriptString:(BOOL)visible
 {
     NSString *param = visible ? @"true" : @"false";
-    NSString *javascriptString = [NSString stringWithFormat:@"window.isAdVisible = %@;", param];
+    NSString *javascriptString = [NSString stringWithFormat:@"window.isFlipboardAdVisible = %@;", param];
     return javascriptString;
 }
 
