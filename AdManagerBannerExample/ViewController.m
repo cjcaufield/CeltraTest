@@ -292,10 +292,6 @@
         
         // Track the state.
         self.bannerIsPreloading = YES;
-        
-        // Wait a specified amount of time for preloading to complete.
-        NSTimeInterval kPreloadingTime = 5.0;
-        [self performSelector:@selector(preloadingDidFinish) withObject:nil afterDelay:kPreloadingTime];
     }
     // NO PRELOADING HACK
     // Show banner immediately after it's received.
@@ -315,7 +311,10 @@
 {
     NSLog(@"adView:didReceiveAppEvent:%@ withInfo:%@", name, info);
     
-    // Nothing yet.
+    static NSString *kCeltraLoadedEventName = @"celtraLoaded";
+    if ([name isEqual:kCeltraLoadedEventName]) {
+        [self preloadingDidFinish];
+    }
 }
 
 #pragma mark - Layout
