@@ -13,8 +13,12 @@
 
 @property (nonatomic, weak) IBOutlet UILabel *unitIDLabel;
 @property (nonatomic, weak) IBOutlet UISwitch *preloadSwitch;
-@property (nonatomic, weak) IBOutlet UISwitch *preloadOffscreenSwitch;
 @property (nonatomic, weak) IBOutlet UITableViewCell *preloadOffscreenCell;
+@property (nonatomic, weak) IBOutlet UISwitch *preloadOffscreenSwitch;
+@property (nonatomic, weak) IBOutlet UITableViewCell *preloadInDetechedParentViewCell;
+@property (nonatomic, weak) IBOutlet UISwitch *preloadInDetechedParentViewSwitch;
+@property (nonatomic, weak) IBOutlet UITableViewCell *hideAfterPreloadingCell;
+@property (nonatomic, weak) IBOutlet UISwitch *hideAfterPreloadingSwitch;
 @property (nonatomic, weak) IBOutlet UISwitch *injectVisibilityJavascriptSwitch;
 @property (nonatomic, weak) IBOutlet UISwitch *autoPresentSwitch;
 
@@ -42,17 +46,26 @@
     // Set the switch states.
     self.preloadSwitch.on = DataModel.shared.shouldPreload;
     self.preloadOffscreenSwitch.on = DataModel.shared.preloadOffscreen;
+    self.preloadInDetechedParentViewSwitch.on = DataModel.shared.preloadInDetachedParentView;
+    self.hideAfterPreloadingSwitch.on = DataModel.shared.hideAfterPreloading;
     self.injectVisibilityJavascriptSwitch.on = DataModel.shared.injectVisibilityJavascript;
     self.autoPresentSwitch.on = DataModel.shared.shouldAutoPresent;
     
-    // Only enable the preload offscreen cell if preloading is on.
-    [self setPreloadOffscreenCellEnabled:DataModel.shared.shouldPreload];
+    // If preloading is off then disable related cells.
+    [self setPreloadingSubcellsEnabled:DataModel.shared.shouldPreload];
 }
 
-- (void)setPreloadOffscreenCellEnabled:(BOOL)enabled
+- (NSArray *)preloadingSubcells
 {
-    self.preloadOffscreenCell.userInteractionEnabled = enabled;
-    self.preloadOffscreenCell.contentView.alpha = enabled ? 1.0 : 0.5;
+    return @[self.preloadOffscreenCell, self.preloadInDetechedParentViewCell, self.hideAfterPreloadingCell];
+}
+
+- (void)setPreloadingSubcellsEnabled:(BOOL)enabled
+{
+    for (UITableViewCell *cell in self.preloadingSubcells) {
+        cell.userInteractionEnabled = enabled;
+        cell.contentView.alpha = enabled ? 1.0 : 0.5;
+    }
 }
 
 - (IBAction)preloadSwitchChanged:(UISwitch *)sender
@@ -64,6 +77,18 @@
 - (IBAction)preloadOffscreenChanged:(UISwitch *)sender
 {
     DataModel.shared.preloadOffscreen = sender.on;
+    [self updateUI];
+}
+
+- (IBAction)preloadInDetachedParentViewChanged:(UISwitch *)sender
+{
+    DataModel.shared.preloadInDetachedParentView = sender.on;
+    [self updateUI];
+}
+
+- (IBAction)hideAfterPreloadingChanged:(UISwitch *)sender
+{
+    DataModel.shared.hideAfterPreloading = sender.on;
     [self updateUI];
 }
 

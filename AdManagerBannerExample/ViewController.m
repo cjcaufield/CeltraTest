@@ -12,6 +12,9 @@
 @property (nonatomic, strong) GADAdLoader *loader;
 @property (nonatomic, strong) DFPBannerView *bannerView;
 @property (nonatomic, assign) BOOL bannerWantsFullscreen;
+@property (nonatomic, strong) UIView *detachedParentView;
+
+// Timing
 @property (nonatomic, assign) BOOL bannerIsPreloading;
 @property (nonatomic, assign) BOOL bannerHasBeenPreloaded;
 
@@ -174,6 +177,11 @@
     self.bannerIsPreloading = NO;
     self.bannerHasBeenPreloaded = YES;
     
+    // Hide after preloading
+    if (DataModel.shared.hideAfterPreloading) {
+        self.bannerView.hidden = YES;
+    }
+    
     // Auto-present?
     if (DataModel.shared.shouldAutoPresent) {
         // Layout
@@ -263,8 +271,16 @@
         NSLog(@"Using preloading hack.");
         NSLog(@"Adding banner to main window.");
         
-        // Add the banner to the main window so it can preload.
-        [self.mainWindow insertSubview:self.bannerView atIndex:0];
+        // Two possible parent views for the preloading banner:
+        // 1. A view that isn't part of the hierarchy (suggested by Google).
+        // 2. The app's main window.
+        if (DataModel.shared.preloadInDetachedParentView) {
+            // Add the banner to the detached view so it can preload.
+            [self.detachedParentView addSubview:self.bannerView];
+        } else {
+            // Add the banner to the main window so it can preload.
+            [self.mainWindow insertSubview:self.bannerView atIndex:0];
+        }
         
         // Optionally move the banner outside of the screen frame.
         if (DataModel.shared.preloadOffscreen) {
@@ -307,6 +323,17 @@
 - (UIWindow *)mainWindow
 {
     return [[[UIApplication sharedApplication] delegate] window];
+}
+
+- (UIView *)detachedParentView
+{
+    if (!_detachedParentView) {
+        _detachedParentView = [[UIView alloc] init];
+        _detachedParentView.frame = UIScreen.mainScreen.bounds;
+        
+        // Intentionally don't add to the view hierarchy.
+    }
+    return _detachedParentView;
 }
 
 - (CGRect)fullscreenFrame
@@ -363,6 +390,9 @@
         NSLog(@"Centering banner");
         self.bannerView.center = self.view.center;
     }
+    
+    // Show the banner in case it was hidden.
+    self.bannerView.hidden = NO;
     
     // The GMA SDK seems to think ads are visibile when they're not.
     // To work around this, inject javascript to tell the banner that it's *actually* visible.

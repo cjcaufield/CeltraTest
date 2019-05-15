@@ -25,8 +25,14 @@
 // Should the preloading hack be used.
 @property (nonatomic, assign) BOOL shouldPreload;
 
-// Place preloading views outside of the screen's bounds?
+// Place preloading views outside of the screen's bounds.
 @property (nonatomic, assign) BOOL preloadOffscreen;
+
+// Place preloading views in a parent view detached from the view hierarchy.
+@property (nonatomic, assign) BOOL preloadInDetachedParentView;
+
+// Hide banners after they've finished preloading.
+@property (nonatomic, assign) BOOL hideAfterPreloading;
 
 // Inject javascript to let the banner know when it's *actually* visible.
 @property (nonatomic, assign) BOOL injectVisibilityJavascript;

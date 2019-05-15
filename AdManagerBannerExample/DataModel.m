@@ -11,6 +11,8 @@
 static NSString *kFLUnitID = @"FLUnitID";
 static NSString *kFLShouldPreload = @"FLShouldPreload";
 static NSString *kFLPreloadOffscreen = @"FLPreloadOffscreen";
+static NSString *kFLPreloadInDetachedParentView = @"FLPreloadInDetachedParentView";
+static NSString *kFLHideAfterPreloading = @"FLHideAfterPreloading";
 static NSString *kFLInjectVisibilityJavascript = @"FLInjectVisibilityJavascript";
 static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
 
@@ -39,6 +41,12 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
         // Preload offscreen
         // Doesn't seem to work, so leaving off by default.
         self.preloadOffscreen = [self defaultBoolForKey:kFLPreloadOffscreen fallback:NO];
+        
+        // Preload in detached parent view
+        self.preloadInDetachedParentView = [self defaultBoolForKey:kFLPreloadInDetachedParentView fallback:NO];
+        
+        // Hide after preloading
+        self.hideAfterPreloading = [self defaultBoolForKey:kFLHideAfterPreloading fallback:NO];
         
         // Inject visibility javascript
         self.injectVisibilityJavascript = [self defaultBoolForKey:kFLInjectVisibilityJavascript fallback:YES];
@@ -120,6 +128,18 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
 {
     _preloadOffscreen = preloadOffscreen;
     [self.defaults setBool:preloadOffscreen forKey:kFLPreloadOffscreen];
+}
+
+- (void)setPreloadInDetachedParentView:(BOOL)detached
+{
+    _preloadInDetachedParentView = detached;
+    [self.defaults setBool:detached forKey:kFLPreloadInDetachedParentView];
+}
+
+- (void)setHideAfterPreloading:(BOOL)hide
+{
+    _hideAfterPreloading = hide;
+    [self.defaults setBool:hide forKey:kFLHideAfterPreloading];
 }
 
 - (void)setInjectVisibilityJavascript:(BOOL)inject
