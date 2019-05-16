@@ -461,7 +461,7 @@
 - (NSString *)bannerVisibilityJavascriptString:(BOOL)visible
 {
     NSString *param = visible ? @"true" : @"false";
-    NSString *javascriptString = [NSString stringWithFormat:@"window.isFlipboardAdVisible = %@;", param];
+    NSString *javascriptString = [NSString stringWithFormat:@"if (typeof setFlipboardAdIsVisible === 'function') { setFlipboardAdIsVisible(%@); }", param];
     return javascriptString;
 }
 
