@@ -31,6 +31,10 @@
 // Place preloading views in a parent view detached from the view hierarchy.
 @property (nonatomic, assign) BOOL preloadInDetachedParentView;
 
+// Preload until the creative signals that it's done preloding.
+// If false, creatives are given a constant amount of time to preload (currently 5s).
+@property (nonatomic, assign) BOOL waitForPreloadingCompletionEvent;
+
 // Hide banners after they've finished preloading.
 @property (nonatomic, assign) BOOL hideAfterPreloading;
 

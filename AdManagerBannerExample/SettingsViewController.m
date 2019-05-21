@@ -17,6 +17,8 @@
 @property (nonatomic, weak) IBOutlet UISwitch *preloadOffscreenSwitch;
 @property (nonatomic, weak) IBOutlet UITableViewCell *preloadInDetechedParentViewCell;
 @property (nonatomic, weak) IBOutlet UISwitch *preloadInDetechedParentViewSwitch;
+@property (nonatomic, weak) IBOutlet UITableViewCell *waitForPreloadingCompletionEventCell;
+@property (nonatomic, weak) IBOutlet UISwitch *waitForPreloadingCompletionEventSwitch;
 @property (nonatomic, weak) IBOutlet UITableViewCell *hideAfterPreloadingCell;
 @property (nonatomic, weak) IBOutlet UISwitch *hideAfterPreloadingSwitch;
 @property (nonatomic, weak) IBOutlet UISwitch *injectVisibilityJavascriptSwitch;
@@ -47,6 +49,7 @@
     self.preloadSwitch.on = DataModel.shared.shouldPreload;
     self.preloadOffscreenSwitch.on = DataModel.shared.preloadOffscreen;
     self.preloadInDetechedParentViewSwitch.on = DataModel.shared.preloadInDetachedParentView;
+    self.waitForPreloadingCompletionEventSwitch.on = DataModel.shared.waitForPreloadingCompletionEvent;
     self.hideAfterPreloadingSwitch.on = DataModel.shared.hideAfterPreloading;
     self.injectVisibilityJavascriptSwitch.on = DataModel.shared.injectVisibilityJavascript;
     self.autoPresentSwitch.on = DataModel.shared.shouldAutoPresent;
@@ -57,7 +60,10 @@
 
 - (NSArray *)preloadingSubcells
 {
-    return @[self.preloadOffscreenCell, self.preloadInDetechedParentViewCell, self.hideAfterPreloadingCell];
+    return @[self.waitForPreloadingCompletionEventCell,
+             self.preloadOffscreenCell,
+             self.preloadInDetechedParentViewCell,
+             self.hideAfterPreloadingCell];
 }
 
 - (void)setPreloadingSubcellsEnabled:(BOOL)enabled
@@ -83,6 +89,12 @@
 - (IBAction)preloadInDetachedParentViewChanged:(UISwitch *)sender
 {
     DataModel.shared.preloadInDetachedParentView = sender.on;
+    [self updateUI];
+}
+
+- (IBAction)waitForPreloadingCompletionEventChanged:(UISwitch *)sender
+{
+    DataModel.shared.waitForPreloadingCompletionEvent = sender.on;
     [self updateUI];
 }
 

@@ -12,6 +12,7 @@ static NSString *kFLUnitID = @"FLUnitID";
 static NSString *kFLShouldPreload = @"FLShouldPreload";
 static NSString *kFLPreloadOffscreen = @"FLPreloadOffscreen";
 static NSString *kFLPreloadInDetachedParentView = @"FLPreloadInDetachedParentView";
+static NSString *kFLWaitForPreloadingCompletionEvent = @"FLWaitForPreloadingCompletionEvent";
 static NSString *kFLHideAfterPreloading = @"FLHideAfterPreloading";
 static NSString *kFLInjectVisibilityJavascript = @"FLInjectVisibilityJavascript";
 static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
@@ -42,8 +43,11 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
         // Doesn't seem to work, so leaving off by default.
         self.preloadOffscreen = [self defaultBoolForKey:kFLPreloadOffscreen fallback:NO];
         
-        // Preload in detached parent view
+        // Preload in detached parent view.
         self.preloadInDetachedParentView = [self defaultBoolForKey:kFLPreloadInDetachedParentView fallback:NO];
+        
+        // Wait for preloading completion event.
+        self.waitForPreloadingCompletionEvent = [self defaultBoolForKey:kFLWaitForPreloadingCompletionEvent fallback:NO];
         
         // Hide after preloading
         self.hideAfterPreloading = [self defaultBoolForKey:kFLHideAfterPreloading fallback:NO];
@@ -60,12 +64,15 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
 - (NSString *)defaultStringForKey:(NSString *)key fallback:(NSString *)fallback
 {
     NSString *defaultString = [self.defaults objectForKey:key];
-    return defaultString.length > 0 ? defaultString : fallback;
+    NSString *result = defaultString.length > 0 ? defaultString : fallback;
+    return result;
 }
 
 - (BOOL)defaultBoolForKey:(NSString *)key fallback:(BOOL)fallback
 {
-    return [self.defaults objectForKey:key] ? [self.defaults boolForKey:key] : fallback;
+    id object = [self.defaults objectForKey:key];
+    BOOL result = object ? [self.defaults boolForKey:key] : fallback;
+    return result;
 }
 
 + (NSArray<NSString *> *)allPossibleUnitIDs
@@ -134,6 +141,12 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
 {
     _preloadInDetachedParentView = detached;
     [self.defaults setBool:detached forKey:kFLPreloadInDetachedParentView];
+}
+
+- (void)setWaitForPreloadingCompletionEvent:(BOOL)wait
+{
+    _waitForPreloadingCompletionEvent = wait;
+    [self.defaults setBool:wait forKey:kFLWaitForPreloadingCompletionEvent];
 }
 
 - (void)setHideAfterPreloading:(BOOL)hide

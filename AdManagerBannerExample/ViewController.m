@@ -292,6 +292,14 @@
         
         // Track the state.
         self.bannerIsPreloading = YES;
+        
+        // Preload for a constant amount of time if we're not waiting for a completion event.
+        if (!DataModel.shared.waitForPreloadingCompletionEvent) {
+            // Wait a specified amount of time for preloading to complete.
+            NSTimeInterval kPreloadingTime = 5.0;
+            [self performSelector:@selector(preloadingDidFinish) withObject:nil afterDelay:kPreloadingTime];
+        }
+
     }
     // NO PRELOADING HACK
     // Show banner immediately after it's received.
