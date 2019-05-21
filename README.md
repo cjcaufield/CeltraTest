@@ -33,6 +33,12 @@ If "Auto-Present" is off, the "Fetch" button will turn into a "Present" button o
 
 * *Preload > Outside Screen Bounds -* Preload the banner outside of the screen's bounds.  Specifically, origin.x is set to the screen width.
 
-* *Inject Visibility Javascript -* Inject `window.adIsVisible = true;` when the ad is presented.  Some creatives (eg. celtra20) delay autoplay until this flag is set.
+* *Preload > In Detached Parent View -* Preload the banner inside a parent view that's not part of the view hierarchy.
+
+* *Preload > Wait for Completion Event -* Preload the banner until it sends a completion event to the app.  When disabled the creative will load for a constant amount of time (currently 5s).
+
+* *Preload > Hide Afterwards -* Hide the banner after preloading finishes, and then unhide when presented.
+
+* *Inject Visibility Javascript -* Inject javascript when the ad is presented to let it know that it's *actually* visible.  Creatives can be modified to delay autoplay until this happens.
 
 * *Auto-Present -* Automatically display ads when they finish downloading/preloading.  Turn this off to help isolate activity that happens before ads appear.
