@@ -299,7 +299,6 @@
             NSTimeInterval kPreloadingTime = 5.0;
             [self performSelector:@selector(preloadingDidFinish) withObject:nil afterDelay:kPreloadingTime];
         }
-
     }
     // NO PRELOADING HACK
     // Show banner immediately after it's received.
@@ -321,7 +320,9 @@
     
     static NSString *kCeltraLoadedEventName = @"celtraLoaded";
     if ([name isEqual:kCeltraLoadedEventName]) {
-        [self preloadingDidFinish];
+        if (DataModel.shared.waitForPreloadingCompletionEvent) {
+            [self preloadingDidFinish];
+        }
     }
 }
 
