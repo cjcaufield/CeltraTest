@@ -42,3 +42,5 @@ If "Auto-Present" is off, the "Fetch" button will turn into a "Present" button o
 * *Inject Visibility Javascript -* Inject javascript when the ad is presented to let it know that it's *actually* visible.  Creatives can be modified to delay autoplay until this happens.
 
 * *Auto-Present -* Automatically display ads when they finish downloading/preloading.  Turn this off to help isolate activity that happens before ads appear.
+
+* *Manual Impressions -* Manually report impressions rather than letting the SDK do it automatically.
