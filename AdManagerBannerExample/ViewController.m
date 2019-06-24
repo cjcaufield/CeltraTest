@@ -224,6 +224,11 @@
     // Register as the banner's event delegate.
     self.bannerView.appEventDelegate = self;
     
+    // Register for manual impressions if desired.
+    if (DataModel.shared.manualImpressions) {
+        self.bannerView.enableManualImpressions = YES;
+    }
+    
     // Update the UI.
     [self updateUI];
 }
@@ -407,6 +412,12 @@
     if (DataModel.shared.injectVisibilityJavascript) {
         NSLog(@"Injecting banner visibility javascript");
         [self setBannerVisibilityJavascriptFlag:YES];
+    }
+    
+    // Manual impressions if desired.
+    if (DataModel.shared.manualImpressions) {
+        NSLog(@"Firing manual impression");
+        [self.bannerView recordImpression];
     }
     
     // Update the UI.
