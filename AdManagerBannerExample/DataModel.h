@@ -44,4 +44,7 @@
 // Should the ad automatically be presented once it's done downloading (and preloading).
 @property (nonatomic, assign) BOOL shouldAutoPresent;
 
+// Manually report impressions rather than letting the SDK do it automatically.
+@property (nonatomic, assign) BOOL manualImpressions;
+
 @end

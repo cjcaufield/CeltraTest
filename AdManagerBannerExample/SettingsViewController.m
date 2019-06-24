@@ -23,6 +23,7 @@
 @property (nonatomic, weak) IBOutlet UISwitch *hideAfterPreloadingSwitch;
 @property (nonatomic, weak) IBOutlet UISwitch *injectVisibilityJavascriptSwitch;
 @property (nonatomic, weak) IBOutlet UISwitch *autoPresentSwitch;
+@property (nonatomic, weak) IBOutlet UISwitch *manualImpressionSwitch;
 
 @end
 
@@ -53,6 +54,7 @@
     self.hideAfterPreloadingSwitch.on = DataModel.shared.hideAfterPreloading;
     self.injectVisibilityJavascriptSwitch.on = DataModel.shared.injectVisibilityJavascript;
     self.autoPresentSwitch.on = DataModel.shared.shouldAutoPresent;
+    self.manualImpressionSwitch.on = DataModel.shared.manualImpressions;
     
     // If preloading is off then disable related cells.
     [self setPreloadingSubcellsEnabled:DataModel.shared.shouldPreload];
@@ -113,6 +115,12 @@
 - (IBAction)autoPresentSwitchChanged:(UISwitch *)sender
 {
     DataModel.shared.shouldAutoPresent = sender.on;
+    [self updateUI];
+}
+
+- (IBAction)manualImpressionsSwitchChanged:(UISwitch *)sender
+{
+    DataModel.shared.manualImpressions = sender.on;
     [self updateUI];
 }
 

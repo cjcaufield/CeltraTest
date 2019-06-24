@@ -314,6 +314,34 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                     </tableViewCell>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="none" indentationWidth="10" rowHeight="44" id="SPm-Pe-jSM">
+                                        <rect key="frame" x="0.0" y="352" width="375" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="SPm-Pe-jSM" id="nvK-OJ-K6p">
+                                            <rect key="frame" x="0.0" y="0.0" width="375" height="43.666666666666664"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" multipleTouchEnabled="YES" contentMode="left" insetsLayoutMarginsFromSafeArea="NO" text="Manual Impressions" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Mfd-I8-Bid">
+                                                    <rect key="frame" x="16" y="11.333333333333336" width="152" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8I1-om-Zd6">
+                                                    <rect key="frame" x="310" y="6.3333333333333321" width="51" height="30.999999999999996"/>
+                                                    <connections>
+                                                        <action selector="manualImpressionsSwitchChanged:" destination="L1G-fS-gTS" eventType="valueChanged" id="4pQ-wV-nHv"/>
+                                                    </connections>
+                                                </switch>
+                                            </subviews>
+                                            <constraints>
+                                                <constraint firstItem="Mfd-I8-Bid" firstAttribute="centerY" secondItem="nvK-OJ-K6p" secondAttribute="centerY" id="4Hk-TI-Lx0"/>
+                                                <constraint firstItem="Mfd-I8-Bid" firstAttribute="leading" secondItem="nvK-OJ-K6p" secondAttribute="leadingMargin" id="IO6-E2-3an"/>
+                                                <constraint firstItem="8I1-om-Zd6" firstAttribute="centerY" secondItem="nvK-OJ-K6p" secondAttribute="centerY" id="SCs-Ta-gcf"/>
+                                                <constraint firstItem="8I1-om-Zd6" firstAttribute="trailing" secondItem="nvK-OJ-K6p" secondAttribute="trailingMargin" id="SXw-h6-5vI"/>
+                                            </constraints>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
                                 </cells>
                             </tableViewSection>
                         </sections>
@@ -329,6 +357,7 @@
                         <outlet property="hideAfterPreloadingCell" destination="NYa-Bn-mgF" id="11V-Af-Nto"/>
                         <outlet property="hideAfterPreloadingSwitch" destination="TSL-GY-2nK" id="US3-IQ-vAi"/>
                         <outlet property="injectVisibilityJavascriptSwitch" destination="f3b-5D-rzz" id="ZmM-8h-jtC"/>
+                        <outlet property="manualImpressionSwitch" destination="8I1-om-Zd6" id="d7R-td-OZ0"/>
                         <outlet property="preloadInDetechedParentViewCell" destination="Rjb-67-4At" id="Dt6-oi-Pai"/>
                         <outlet property="preloadInDetechedParentViewSwitch" destination="QDc-K0-XmI" id="7xR-Rp-ba7"/>
                         <outlet property="preloadOffscreenCell" destination="Bvh-YV-9ba" id="IGS-lo-UEK"/>

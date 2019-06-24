@@ -16,6 +16,7 @@ static NSString *kFLWaitForPreloadingCompletionEvent = @"FLWaitForPreloadingComp
 static NSString *kFLHideAfterPreloading = @"FLHideAfterPreloading";
 static NSString *kFLInjectVisibilityJavascript = @"FLInjectVisibilityJavascript";
 static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
+static NSString *kFLManualImpressions = @"FLManualImpressions";
 
 @implementation DataModel
 
@@ -57,6 +58,9 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
         
         // Auto-present
         self.shouldAutoPresent = [self defaultBoolForKey:kFLShouldAutoPresent fallback:YES];
+        
+        // Manual impressions
+        self.manualImpressions = [self defaultBoolForKey:kFLManualImpressions fallback:NO];
     }
     return self;
 }
@@ -165,6 +169,12 @@ static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
 {
     _shouldAutoPresent = shouldAutoPresent;
     [self.defaults setBool:shouldAutoPresent forKey:kFLShouldAutoPresent];
+}
+
+- (void)setManualImpressions:(BOOL)manualImpressions
+{
+    _manualImpressions = manualImpressions;
+    [self.defaults setBool:manualImpressions forKey:kFLManualImpressions];
 }
 
 @end
