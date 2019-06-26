@@ -14,6 +14,7 @@ static NSString *kFLPreloadOffscreen = @"FLPreloadOffscreen";
 static NSString *kFLPreloadInDetachedParentView = @"FLPreloadInDetachedParentView";
 static NSString *kFLWaitForPreloadingCompletionEvent = @"FLWaitForPreloadingCompletionEvent";
 static NSString *kFLHideAfterPreloading = @"FLHideAfterPreloading";
+static NSString *kFLRemoveFromParentAfterPreloading = @"FLRemoveFromParentAfterPreloading";
 static NSString *kFLInjectVisibilityJavascript = @"FLInjectVisibilityJavascript";
 static NSString *kFLShouldAutoPresent = @"FLShouldAutoPresent";
 static NSString *kFLManualImpressions = @"FLManualImpressions";
@@ -52,6 +53,9 @@ static NSString *kFLManualImpressions = @"FLManualImpressions";
         
         // Hide after preloading
         self.hideAfterPreloading = [self defaultBoolForKey:kFLHideAfterPreloading fallback:NO];
+        
+        // Remove from hierarchy after preloading
+        self.removeFromParentAfterPreloading = [self defaultBoolForKey:kFLRemoveFromParentAfterPreloading fallback:NO];
         
         // Inject visibility javascript
         self.injectVisibilityJavascript = [self defaultBoolForKey:kFLInjectVisibilityJavascript fallback:YES];
@@ -157,6 +161,12 @@ static NSString *kFLManualImpressions = @"FLManualImpressions";
 {
     _hideAfterPreloading = hide;
     [self.defaults setBool:hide forKey:kFLHideAfterPreloading];
+}
+
+- (void)setRemoveFromParentAfterPreloading:(BOOL)remove
+{
+    _removeFromParentAfterPreloading = remove;
+    [self.defaults setBool:remove forKey:kFLRemoveFromParentAfterPreloading];
 }
 
 - (void)setInjectVisibilityJavascript:(BOOL)inject

@@ -178,9 +178,14 @@
     self.bannerIsPreloading = NO;
     self.bannerHasBeenPreloaded = YES;
     
-    // Hide after preloading
+    // Hide after preloading?
     if (DataModel.shared.hideAfterPreloading) {
         self.bannerView.hidden = YES;
+    }
+    
+    // Remove from hierarchy after preloading?
+    if (DataModel.shared.removeFromParentAfterPreloading) {
+        [self.bannerView removeFromSuperview];
     }
     
     // Auto-present?

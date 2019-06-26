@@ -38,6 +38,9 @@
 // Hide banners after they've finished preloading.
 @property (nonatomic, assign) BOOL hideAfterPreloading;
 
+// Remove banners from parent views after preloading.
+@property (nonatomic, assign) BOOL removeFromParentAfterPreloading;
+
 // Inject javascript to let the banner know when it's *actually* visible.
 @property (nonatomic, assign) BOOL injectVisibilityJavascript;
 
