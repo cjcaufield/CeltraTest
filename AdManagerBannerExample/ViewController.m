@@ -5,6 +5,7 @@
 #import "ViewController.h"
 #import "SettingsViewController.h"
 #import "DataModel.h"
+#import <WebKit/WebKit.h>
 
 @interface ViewController () <DFPBannerAdLoaderDelegate, GADUnifiedNativeAdLoaderDelegate, GADAppEventDelegate>
 
@@ -409,9 +410,10 @@
     
     // The GMA SDK seems to think ads are visibile when they're not.
     // To work around this, inject javascript to tell the banner that it's *actually* visible.
+    // Wait until the next runloop to avoid timing issues.
     if (DataModel.shared.injectVisibilityJavascript) {
         NSLog(@"Injecting banner visibility javascript");
-        [self setBannerVisibilityJavascriptFlag:YES];
+        [self performSelector:@selector(setBannerVisibilityJavascriptFlagToYes) withObject:nil afterDelay:0.0];
     }
     
     // Manual impressions if desired.
@@ -435,14 +437,35 @@
     return [self.view.subviews containsObject:self.bannerView];
 }
 
-- (void)setBannerVisibilityJavascriptFlag:(BOOL)visible
+- (void)setBannerVisibilityJavascriptFlagToYes
 {
-    UIWebView *webView = [self topmostUIWebView:self.bannerView];
+    [self setBannerVisibilityJavascriptFlag:YES];
+}
+
+ - (void)setBannerVisibilityJavascriptFlag:(BOOL)visible
+{
     NSString *javascriptString = [self bannerVisibilityJavascriptString:visible];
-    [webView stringByEvaluatingJavaScriptFromString:javascriptString];
+    
+    // UIWebView
+    //UIWebView *uiWebView = [self topmostUIWebView:self.bannerView];
+    //[uiWebView stringByEvaluatingJavaScriptFromString:javascriptString];
+    
+    // WKWebView
+    WKWebView *wkWebView = [self topmostWKWebView:self.bannerView];
+    [wkWebView evaluateJavaScript:javascriptString completionHandler:nil];
 }
 
 - (UIWebView *)topmostUIWebView:(UIView *)rootView
+{
+    return (UIWebView *)[self topmostViewOfClass:[UIWebView class] rootView:rootView];
+}
+
+- (WKWebView *)topmostWKWebView:(UIView *)rootView
+{
+    return (WKWebView *)[self topmostViewOfClass:[WKWebView class] rootView:rootView];
+}
+
+- (UIView *)topmostViewOfClass:(Class)viewClass rootView:(UIView *)rootView
 {
     // Be safe.
     if (rootView == nil) {
@@ -460,8 +483,8 @@
         // Iterate over them.
         for (UIView *view in views) {
             // If the view is a UIWebView, return it.
-            if ([view isKindOfClass:[UIWebView class]]) {
-                return (UIWebView *)view;
+            if ([view isKindOfClass:viewClass]) {
+                return view;
             }
             // Otherwise, enqueue the view's subviews.
             else {

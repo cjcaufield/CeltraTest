@@ -35,5 +35,7 @@
 	</array>
 	<key>GADIsAdManagerApp</key>
 	<true/>
+	<key>gad_preferred_webview</key>
+	<string>wkwebview</string>
 </dict>
 </plist>
