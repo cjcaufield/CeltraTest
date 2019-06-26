@@ -131,11 +131,14 @@
 
 - (void)reset
 {
+    NSLog(@"$$$$$ Resetting.");
+    NSLog(@"$$$$$");
+    
     // Destroy the loader
     self.loader = nil;
     
-    // Remove the banner
-    [self removeBannerView];
+    // Destroy the banner
+    [self destroyBannerView];
     
     // Reset flags
     self.bannerWantsFullscreen = NO;
@@ -152,7 +155,7 @@
         return;
     }
     
-    NSLog(@"Fetching ad");
+    NSLog(@"$$$$$ Fetching ad");
     
     // Unit ID.
     NSString *unitID = DataModel.shared.unitID;
@@ -172,19 +175,23 @@
     [self.loader loadRequest:request];
 }
 
-- (void)preloadingDidFinish
+- (void)loadingAndPreloadingDidFinish
 {
+    NSLog(@"$$$$$ Loading/preloading finished.");
+    
     // Update state
     self.bannerIsPreloading = NO;
     self.bannerHasBeenPreloaded = YES;
     
     // Hide after preloading?
     if (DataModel.shared.hideAfterPreloading) {
+        NSLog(@"$$$$$ Hiding banner.");
         self.bannerView.hidden = YES;
     }
     
     // Remove from hierarchy after preloading?
     if (DataModel.shared.removeFromParentAfterPreloading) {
+        NSLog(@"$$$$$ Removing banner from parent.");
         [self.bannerView removeFromSuperview];
     }
     
@@ -202,7 +209,7 @@
 
 - (NSArray<NSValue *> *)validBannerSizesForAdLoader:(GADAdLoader *)adLoader
 {
-    NSLog(@"validBannerSizesForAdLoader:");
+    NSLog(@"$$$$$ validBannerSizesForAdLoader:");
     
     return @[
         NSValueFromGADAdSize(GADAdSizeFromCGSize(CGSizeMake(300, 600))),
@@ -213,7 +220,7 @@
 
 - (void)adLoader:(GADAdLoader *)adLoader didReceiveDFPBannerView:(DFPBannerView *)bannerView
 {
-    NSLog(@"adLoader:didReceiveDFPBannerView:");
+    NSLog(@"$$$$$ adLoader:didReceiveDFPBannerView:");
     
     // Abandon the banner if the fetch has been cancelled.
     if (!self.loader) {
@@ -241,7 +248,7 @@
 
 - (void)adLoader:(GADAdLoader *)adLoader didReceiveUnifiedNativeAd:(GADUnifiedNativeAd *)nativeAd
 {
-    NSLog(@"adLoader:didReceiveUnifiedNativeAd:");
+    NSLog(@"$$$$$ adLoader:didReceiveUnifiedNativeAd:");
     
     // Do nothing because we're only testing banners.
     
@@ -252,7 +259,7 @@
 - (void)adLoader:(GADAdLoader *)adLoader didFailToReceiveAdWithError:(GADRequestError *)error
 {
     // Log the error
-    NSLog(@"adLoader:didFailToReceiveAdWithError: %@", error);
+    NSLog(@"$$$$$ adLoader:didFailToReceiveAdWithError: %@", error);
     
     // Update the UI.
     [self updateUI];
@@ -260,7 +267,7 @@
 
 - (void)adLoaderDidFinishLoading:(GADAdLoader *)adLoader
 {
-    NSLog(@"adLoaderDidFinishLoading:");
+    NSLog(@"$$$$$ adLoaderDidFinishLoading:");
     
     // Abort if the fetch was cancelled or no banner arrived.
     if (!self.loader || !self.bannerView) {
@@ -279,8 +286,8 @@
     // Banners won't preload unless they're attached to a window.
     if (DataModel.shared.shouldPreload) {
         // Logging
-        NSLog(@"Using preloading hack.");
-        NSLog(@"Adding banner to main window.");
+        NSLog(@"$$$$$ Using preloading hack.");
+        NSLog(@"$$$$$ Adding banner to main window.");
         
         // Two possible parent views for the preloading banner:
         // 1. A view that isn't part of the hierarchy (suggested by Google).
@@ -295,7 +302,7 @@
         
         // Optionally move the banner outside of the screen frame.
         if (DataModel.shared.preloadOffscreen) {
-            NSLog(@"Moving banner outside of screen bounds.");
+            NSLog(@"$$$$$ Moving banner outside of screen bounds.");
             CGRect offscreenBannerFrame = self.bannerView.frame;
             offscreenBannerFrame.origin.x += UIScreen.mainScreen.bounds.size.width;
             self.bannerView.frame = offscreenBannerFrame;
@@ -305,20 +312,20 @@
         self.bannerIsPreloading = YES;
         
         // Preload for a constant amount of time if we're not waiting for a completion event.
-        if (!DataModel.shared.waitForPreloadingCompletionEvent) {
+        if (DataModel.shared.shouldPreload && !DataModel.shared.waitForPreloadingCompletionEvent) {
             // Wait a specified amount of time for preloading to complete.
             NSTimeInterval kPreloadingTime = 5.0;
-            [self performSelector:@selector(preloadingDidFinish) withObject:nil afterDelay:kPreloadingTime];
+            [self performSelector:@selector(loadingAndPreloadingDidFinish) withObject:nil afterDelay:kPreloadingTime];
         }
     }
     // NO PRELOADING HACK
     // Show banner immediately after it's received.
     else {
         // Logging
-        NSLog(@"Not using preloading hack.");
+        NSLog(@"$$$$$ Not using preloading hack.");
         
         // Skip preloading.
-        [self preloadingDidFinish];
+        [self loadingAndPreloadingDidFinish];
     }
     
     // Update the UI.
@@ -327,12 +334,12 @@
 
 - (void)adView:(GADBannerView *)banner didReceiveAppEvent:(NSString *)name withInfo:(nullable NSString *)info
 {
-    NSLog(@"adView:didReceiveAppEvent:%@ withInfo:%@", name, info);
+    NSLog(@"$$$$$ adView:didReceiveAppEvent:%@ withInfo:%@", name, info);
     
     static NSString *kCeltraLoadedEventName = @"celtraLoaded";
     if ([name isEqual:kCeltraLoadedEventName]) {
-        if (DataModel.shared.waitForPreloadingCompletionEvent) {
-            [self preloadingDidFinish];
+        if (DataModel.shared.shouldPreload && DataModel.shared.waitForPreloadingCompletionEvent) {
+            [self loadingAndPreloadingDidFinish];
         }
     }
 }
@@ -376,12 +383,12 @@
 
 - (void)resizeBannerView
 {
-    NSLog(@"resizeBannerView");
+    NSLog(@"$$$$$ resizeBannerView");
     
     // Fullscreen size if the ad wants it.
     if (self.bannerWantsFullscreen) {
         // Google resize method
-        NSLog(@"Expanding banner to fullscreen frame");
+        NSLog(@"$$$$$ Expanding banner to fullscreen frame");
         [self.bannerView resize:GADAdSizeFromCGSize(self.fullscreenFrame.size)];
         
         //
@@ -391,22 +398,22 @@
 
 - (void)layoutBannerView
 {
-    NSLog(@"layoutBannerView");
+    NSLog(@"$$$$$ layoutBannerView");
     
     // Add the banner as a subview if necessary.
     if (![self hasBannerSubview]) {
-        NSLog(@"Adding banner view as subview");
+        NSLog(@"$$$$$ Adding banner view as subview");
         [self.view addSubview:self.bannerView];
     }
     
     // Fullscreen banners take up most of the screen.
     if (self.bannerWantsFullscreen) {
-        NSLog(@"Expanding banner to fullscreen frame");
+        NSLog(@"$$$$$ Expanding banner to fullscreen frame");
         self.bannerView.frame = self.fullscreenFrame;
     }
     // Non-fullscreen banners are centered, but not resized.
     else {
-        NSLog(@"Centering banner");
+        NSLog(@"$$$$$ Centering banner");
         self.bannerView.center = self.view.center;
     }
     
@@ -417,13 +424,13 @@
     // To work around this, inject javascript to tell the banner that it's *actually* visible.
     // Wait until the next runloop to avoid timing issues.
     if (DataModel.shared.injectVisibilityJavascript) {
-        NSLog(@"Injecting banner visibility javascript");
+        NSLog(@"$$$$$ Injecting banner visibility javascript");
         [self performSelector:@selector(setBannerVisibilityJavascriptFlagToYes) withObject:nil afterDelay:0.0];
     }
     
     // Manual impressions if desired.
     if (DataModel.shared.manualImpressions) {
-        NSLog(@"Firing manual impression");
+        NSLog(@"$$$$$ Firing manual impression");
         [self.bannerView recordImpression];
     }
     
@@ -431,10 +438,14 @@
     [self updateUI];
 }
 
-- (void)removeBannerView
+- (void)destroyBannerView
 {
-    [self.bannerView removeFromSuperview];
-    self.bannerView = nil;
+    if (self.bannerView) {
+        NSLog(@"$$$$$ Destroying banner");
+    
+        [self.bannerView removeFromSuperview];
+        self.bannerView = nil;
+    }
 }
 
 - (BOOL)hasBannerSubview
@@ -451,26 +462,17 @@
 {
     NSString *javascriptString = [self bannerVisibilityJavascriptString:visible];
     
-    // UIWebView
-    //UIWebView *uiWebView = [self topmostUIWebView:self.bannerView];
-    //[uiWebView stringByEvaluatingJavaScriptFromString:javascriptString];
+    UIView *webView = [self topmostWebView:self.bannerView];
     
-    // WKWebView
-    WKWebView *wkWebView = [self topmostWKWebView:self.bannerView];
-    [wkWebView evaluateJavaScript:javascriptString completionHandler:nil];
+    if ([webView isKindOfClass:[UIWebView class]]) {
+        [(UIWebView *)webView stringByEvaluatingJavaScriptFromString:javascriptString];
+    }
+    else if ([webView isKindOfClass:[WKWebView class]]) {
+        [(WKWebView *)webView evaluateJavaScript:javascriptString completionHandler:nil];
+    }
 }
 
-- (UIWebView *)topmostUIWebView:(UIView *)rootView
-{
-    return (UIWebView *)[self topmostViewOfClass:[UIWebView class] rootView:rootView];
-}
-
-- (WKWebView *)topmostWKWebView:(UIView *)rootView
-{
-    return (WKWebView *)[self topmostViewOfClass:[WKWebView class] rootView:rootView];
-}
-
-- (UIView *)topmostViewOfClass:(Class)viewClass rootView:(UIView *)rootView
+- (UIView *)topmostWebView:(UIView *)rootView
 {
     // Be safe.
     if (rootView == nil) {
@@ -487,8 +489,8 @@
     while (views.count > 0) {
         // Iterate over them.
         for (UIView *view in views) {
-            // If the view is a UIWebView, return it.
-            if ([view isKindOfClass:viewClass]) {
+            // If the view is a UIWebView or a WKWebView, return it.
+            if ([view isKindOfClass:[UIWebView class]] || [view isKindOfClass:[WKWebView class]]) {
                 return view;
             }
             // Otherwise, enqueue the view's subviews.

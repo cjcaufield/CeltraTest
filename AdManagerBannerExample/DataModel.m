@@ -36,7 +36,7 @@ static NSString *kFLManualImpressions = @"FLManualImpressions";
     self = [super init];
     if (self) {
         // Unit ID
-        self.unitID = [self defaultStringForKey:kFLUnitID fallback:@"/21709104563/testing/celtra/celtra20"];
+        self.unitID = [self defaultStringForKey:kFLUnitID fallback:@"/21709104563/testing/celtra/celtra18"];
         
         // Preload
         self.shouldPreload = [self defaultBoolForKey:kFLShouldPreload fallback:YES];
@@ -49,7 +49,7 @@ static NSString *kFLManualImpressions = @"FLManualImpressions";
         self.preloadInDetachedParentView = [self defaultBoolForKey:kFLPreloadInDetachedParentView fallback:NO];
         
         // Wait for preloading completion event.
-        self.waitForPreloadingCompletionEvent = [self defaultBoolForKey:kFLWaitForPreloadingCompletionEvent fallback:NO];
+        self.waitForPreloadingCompletionEvent = [self defaultBoolForKey:kFLWaitForPreloadingCompletionEvent fallback:YES];
         
         // Hide after preloading
         self.hideAfterPreloading = [self defaultBoolForKey:kFLHideAfterPreloading fallback:NO];
@@ -58,7 +58,7 @@ static NSString *kFLManualImpressions = @"FLManualImpressions";
         self.removeFromParentAfterPreloading = [self defaultBoolForKey:kFLRemoveFromParentAfterPreloading fallback:NO];
         
         // Inject visibility javascript
-        self.injectVisibilityJavascript = [self defaultBoolForKey:kFLInjectVisibilityJavascript fallback:YES];
+        self.injectVisibilityJavascript = [self defaultBoolForKey:kFLInjectVisibilityJavascript fallback:NO];
         
         // Auto-present
         self.shouldAutoPresent = [self defaultBoolForKey:kFLShouldAutoPresent fallback:YES];
