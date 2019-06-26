@@ -131,8 +131,7 @@
 
 - (void)reset
 {
-    NSLog(@"$$$$$ Resetting.");
-    NSLog(@"$$$$$");
+    NSLog(@"$$$$$ Resetting");
     
     // Destroy the loader
     self.loader = nil;
@@ -147,6 +146,9 @@
     
     // Update the UI
     [self updateUI];
+    
+    // Log an empty line for readability
+    NSLog(@"$$$$$");
 }
 
 - (void)tryFetchAd
@@ -177,7 +179,7 @@
 
 - (void)loadingAndPreloadingDidFinish
 {
-    NSLog(@"$$$$$ Loading/preloading finished.");
+    NSLog(@"$$$$$ Loading/preloading finished");
     
     // Update state
     self.bannerIsPreloading = NO;
@@ -185,13 +187,13 @@
     
     // Hide after preloading?
     if (DataModel.shared.hideAfterPreloading) {
-        NSLog(@"$$$$$ Hiding banner.");
+        NSLog(@"$$$$$ Hiding banner");
         self.bannerView.hidden = YES;
     }
     
     // Remove from hierarchy after preloading?
     if (DataModel.shared.removeFromParentAfterPreloading) {
-        NSLog(@"$$$$$ Removing banner from parent.");
+        NSLog(@"$$$$$ Removing banner from parent");
         [self.bannerView removeFromSuperview];
     }
     
@@ -286,8 +288,8 @@
     // Banners won't preload unless they're attached to a window.
     if (DataModel.shared.shouldPreload) {
         // Logging
-        NSLog(@"$$$$$ Using preloading hack.");
-        NSLog(@"$$$$$ Adding banner to main window.");
+        NSLog(@"$$$$$ Using preloading hack");
+        NSLog(@"$$$$$ Adding banner to main window");
         
         // Two possible parent views for the preloading banner:
         // 1. A view that isn't part of the hierarchy (suggested by Google).
@@ -302,7 +304,7 @@
         
         // Optionally move the banner outside of the screen frame.
         if (DataModel.shared.preloadOffscreen) {
-            NSLog(@"$$$$$ Moving banner outside of screen bounds.");
+            NSLog(@"$$$$$ Moving banner outside of screen bounds");
             CGRect offscreenBannerFrame = self.bannerView.frame;
             offscreenBannerFrame.origin.x += UIScreen.mainScreen.bounds.size.width;
             self.bannerView.frame = offscreenBannerFrame;
@@ -322,7 +324,7 @@
     // Show banner immediately after it's received.
     else {
         // Logging
-        NSLog(@"$$$$$ Not using preloading hack.");
+        NSLog(@"$$$$$ Not using preloading hack");
         
         // Skip preloading.
         [self loadingAndPreloadingDidFinish];
